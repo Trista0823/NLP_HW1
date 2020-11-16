@@ -4,6 +4,7 @@
     ND-SRAF / McDonald : 201606
     https.//sraf.nd.edu
 """
+# ticker.txt from https://www.sec.gov/include/ticker.txt
 
 
 def download_masterindex(year, qtr, flag=False):

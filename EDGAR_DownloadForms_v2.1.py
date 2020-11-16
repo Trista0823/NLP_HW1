@@ -14,7 +14,7 @@ import os
 import time
 import sys
 # Modify the following statement to identify the path for local modules
-sys.path.append('D:\GD\Python\TextualAnalysis\Modules')
+# sys.path.append('D:\GD\Python\TextualAnalysis\Modules')
 # Since these imports are dynamically mapped your IDE might flag an error...it's OK
 import EDGAR_Forms  # This module contains some predefined form groups
 import EDGAR_Pac
@@ -54,16 +54,15 @@ import General_Utilities
 # List target forms as strings separated by commas (case sensitive) or
 #   load from EDGAR_Forms.  (See EDGAR_Forms module for predefined lists.)
 PARM_FORMS = EDGAR_Forms.f_10X  # or, for example, PARM_FORMS = ['8-K', '8-K/A']
-PARM_BGNYEAR = 1997  # User selected bgn period.  Earliest available is 1994
-PARM_ENDYEAR = 2000  # User selected end period.
+PARM_BGNYEAR = 2010  # User selected bgn period.  Earliest available is 1994
+PARM_ENDYEAR = 2019  # User selected end period.
 PARM_BGNQTR = 1  # Beginning quarter of each year
 PARM_ENDQTR = 4  # Ending quarter of each year
 # Path where you will store the downloaded files
-PARM_PATH = r'C:\EDGAR\FORM_XX\\'
+PARM_PATH = r'./files'
 # Change the file pointer below to reflect your location for the log file
 #    (directory must already exist)
-PARM_LOGFILE = (r'C:\EDGAR\Log_Files\\' +
-                r'EDGAR_Download_FORM-X_LogFile_' +
+PARM_LOGFILE = (r'./EDGAR_Download_LogFile' +
                 str(PARM_BGNYEAR) + '-' + str(PARM_ENDYEAR) + '.txt')
 # EDGAR parameter
 PARM_EDGARPREFIX = 'https://www.sec.gov/Archives/'

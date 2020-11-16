@@ -1,0 +1,4 @@
+/files/*
+/EDGAR_Download_LogFile/*
+# Default ignored files
+/workspace.xml
