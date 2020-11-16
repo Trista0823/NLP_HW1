@@ -1,4 +1,17 @@
-/files/*
-/EDGAR_Download_LogFile/*
+/files2010/*
+/files2011/*
+/files2012/*
+/files2013/*
+/files2014/*
+/files2015/*
+/files2016/*
+/files2017/*
+/files2018/*
+/files2019/*
+
+/.ipynb_checkpoints/*
+/_pycache_/*
+/EDGAR_Download_LogFile2010-2019.txt
+
 # Default ignored files
 /workspace.xml

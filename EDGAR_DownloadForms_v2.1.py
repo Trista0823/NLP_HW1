@@ -20,6 +20,9 @@ import EDGAR_Forms  # This module contains some predefined form groups
 import EDGAR_Pac
 import General_Utilities
 
+import warnings
+warnings.filterwarnings('ignore')
+
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * +
 

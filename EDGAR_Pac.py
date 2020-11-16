@@ -7,6 +7,30 @@
 # ticker.txt from https://www.sec.gov/include/ticker.txt
 
 
+
+def get_cik():
+    import pandas as pd
+
+    ticker = pd.read_csv('./ticker.txt', delimiter='\t', header=None)
+    dow30 = pd.read_excel('./dow30_complete.xlsx', index_col=0)
+
+    dow30 = dow30.loc[:,['from', 'thru', 'co_conm', 'co_tic']]
+    dow30['thru'] = dow30['thru'].replace('.','20201116')
+    dow30['co_tic'] = dow30['co_tic'].apply(lambda x: str.lower(x))
+    ticker = ticker.rename(columns={0:'co_tic',1:'cik'})
+
+    dow30 = dow30.merge(ticker, how='left', on='co_tic')
+
+    dow30['start_y'] = dow30['from'].apply(lambda x: str(x)[:4])
+    dow30['end_y'] = dow30['thru'].apply(lambda x: str(x)[:4])
+
+    dow30['start_q'] = dow30['from'].apply(lambda x: (int(str(x)[4:6])-1)//3+1)
+    dow30['end_q'] = dow30['thru'].apply(lambda x: (int(str(x)[4:6])-1)//3+1)
+
+    dow30 = dow30.loc[:,['start_y', 'start_q', 'end_y', 'end_q','cik']]
+    return dow30
+
+
 def download_masterindex(year, qtr, flag=False):
     # Download Master.idx from EDGAR
     # Loop accounts for temporary server/ISP issues
