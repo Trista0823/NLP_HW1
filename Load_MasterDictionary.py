@@ -116,7 +116,7 @@ class MasterDictionary:
 if __name__ == '__main__':
     # Full test program in /TextualAnalysis/TestPrograms/Test_Load_MasterDictionary.py
     print(time.strftime('%c') + '/n')
-    md = (r'D:\GD\Research\Natural_Language_Processing\Dictionaries\Master\\' +
+    md = (r'/Users/yi/Desktop/NYU/2020_Fall/NLP/assignments/NLP_HW1' +
           r'LoughranMcDonald_MasterDictionary_2014.csv')
     master_dictionary, md_header, sentiment_categories, stopwords = load_masterdictionary(md, True, False, True)
     print('\n' + 'Normal termination.')
