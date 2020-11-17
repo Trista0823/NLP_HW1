@@ -21,13 +21,14 @@ def get_cik():
 
     dow30 = dow30.merge(ticker, how='left', on='co_tic')
 
-    dow30['start_y'] = dow30['from'].apply(lambda x: str(x)[:4])
-    dow30['end_y'] = dow30['thru'].apply(lambda x: str(x)[:4])
+    dow30['start_y'] = dow30['from'].apply(lambda x: int(str(x)[:4]))
+    dow30['end_y'] = dow30['thru'].apply(lambda x: int(str(x)[:4]))
 
     dow30['start_q'] = dow30['from'].apply(lambda x: (int(str(x)[4:6])-1)//3+1)
     dow30['end_q'] = dow30['thru'].apply(lambda x: (int(str(x)[4:6])-1)//3+1)
 
-    dow30 = dow30.loc[:,['start_y', 'start_q', 'end_y', 'end_q','cik']]
+    dow30 = dow30.loc[:,['start_y', 'start_q', 'end_y', 'end_q', 'cik']]
+    dow30 = dow30.set_index('cik').T.to_dict('list')
     return dow30
 
 
@@ -75,10 +76,13 @@ def download_masterindex(year, qtr, flag=False):
 
 
     # Load m.i. records into masterindex list
+
+    dow30 = get_cik()
     for line in records:
         mir = MasterIndexRecord(line)
-        if not mir.err:
-            masterindex.append(mir)
+        if not mir.err and mir.cik in dow30:
+            if dow30[mir.cik][0]*10+dow30[mir.cik][1] <= year*10+qtr <= dow30[mir.cik][2]*10+dow30[mir.cik][3] :
+                masterindex.append(mir)
 
     if flag:
         print('download_masterindex:  ' + str(year) + ':' + str(qtr) + ' | ' +

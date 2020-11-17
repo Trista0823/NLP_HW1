@@ -37,16 +37,15 @@ import re
 import string
 import sys
 import time
-sys.path.append('D:\GD\Python\TextualAnalysis\Modules')  # Modify to identify path for custom modules
+# sys.path.append('D:\GD\Python\TextualAnalysis\Modules')  # Modify to identify path for custom modules
 import Load_MasterDictionary as LM
 
 # User defined directory for files to be parsed
-TARGET_FILES = r'D:/Temp/TestParse/*.*'
+TARGET_FILES = r'./files/*.*'
 # User defined file pointer to LM dictionary
-MASTER_DICTIONARY_FILE = r'D:/GD/Research/Natural_Language_Processing/Dictionaries/' + \
-                         'Master/LoughranMcDonald_MasterDictionary_2018.csv'
+MASTER_DICTIONARY_FILE = r'./LoughranMcDonald_MasterDictionary_2018.csv'
 # User defined output file
-OUTPUT_FILE = r'D:/Temp/Parser.csv'
+OUTPUT_FILE = r'./Parser.csv'
 # Setup output
 OUTPUT_FIELDS = ['file name,', 'file size,', 'number of words,', '% positive,', '% negative,',
                  '% uncertainty,', '% litigious,', '% modal-weak,', '% modal moderate,',

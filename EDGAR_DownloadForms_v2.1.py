@@ -56,13 +56,13 @@ warnings.filterwarnings('ignore')
 
 # List target forms as strings separated by commas (case sensitive) or
 #   load from EDGAR_Forms.  (See EDGAR_Forms module for predefined lists.)
-PARM_FORMS = EDGAR_Forms.f_10X  # or, for example, PARM_FORMS = ['8-K', '8-K/A']
+PARM_FORMS = ['10-K']  # or, for example, PARM_FORMS = ['8-K', '8-K/A']
 PARM_BGNYEAR = 2010  # User selected bgn period.  Earliest available is 1994
 PARM_ENDYEAR = 2019  # User selected end period.
 PARM_BGNQTR = 1  # Beginning quarter of each year
 PARM_ENDQTR = 4  # Ending quarter of each year
 # Path where you will store the downloaded files
-PARM_PATH = r'./files'
+PARM_PATH = r'./files/'
 # Change the file pointer below to reflect your location for the log file
 #    (directory must already exist)
 PARM_LOGFILE = (r'./EDGAR_Download_LogFile' +
@@ -88,10 +88,11 @@ def download_forms():
             n_qtr = 0
             file_count = {}
             # Setup output path
+            # path = PARM_PATH
             path = '{0}{1}\\QTR{2}\\'.format(PARM_PATH, str(year), str(qtr))
-            if not os.path.exists(path):
-                os.makedirs(path)
-                print('Path: {0} created'.format(path))
+            if not os.path.exists(PARM_PATH):
+                os.makedirs(PARM_PATH)
+                print('Path: {0} created'.format(PARM_PATH))
             masterindex = EDGAR_Pac.download_masterindex(year, qtr, True)
             if masterindex:
                 for item in masterindex:
@@ -107,7 +108,7 @@ def download_forms():
                             file_count[fid] = 1
                         # Setup EDGAR URL and output file name
                         url = PARM_EDGARPREFIX + item.path
-                        fname = (path + str(item.filingdate) + '_' + item.form.replace('/', '-') + '_' +
+                        fname = (PARM_PATH + str(item.filingdate) + '_' + item.form.replace('/', '-') + '_' +
                                  item.path.replace('/', '_'))
                         fname = fname.replace('.txt', '_' + str(file_count[fid]) + '.txt')
                         return_url = General_Utilities.download_to_file(url, fname, f_log)
