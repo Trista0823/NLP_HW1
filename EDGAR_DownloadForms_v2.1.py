@@ -100,7 +100,7 @@ def download_forms():
                         pass
                     if item.form in PARM_FORMS:
                         n_qtr += 1
-                        # Keep track of filings and identify duplicates
+                        # Keep track of filings and identify duplicatesfiling
                         fid = str(item.cik) + str(item.filingdate) + item.form
                         if fid in file_count:
                             file_count[fid] += 1
