@@ -3,6 +3,7 @@
 # BDM : 201510
 
 import time
+#import os
 
 def load_masterdictionary(file_path, print_flag=False, f_log=None, get_other=False):
     _master_dictionary = {}
@@ -116,8 +117,9 @@ class MasterDictionary:
 if __name__ == '__main__':
     # Full test program in /TextualAnalysis/TestPrograms/Test_Load_MasterDictionary.py
     print(time.strftime('%c') + '/n')
-    md = (r'/Users/yi/Desktop/NYU/2020_Fall/NLP/assignments/NLP_HW1' +
-          r'LoughranMcDonald_MasterDictionary_2014.csv')
-    master_dictionary, md_header, sentiment_categories, stopwords = load_masterdictionary(md, True, False, True)
+    md = (r'./' +
+          r'LoughranMcDonald_MasterDictionary_2018.csv')
+    master_dictionary, md_header, sentiment_categories, stopwords, total_doc = load_masterdictionary(md, True, False, True)
+    #print(md_header)
     print('\n' + 'Normal termination.')
     print(time.strftime('%c') + '/n')
