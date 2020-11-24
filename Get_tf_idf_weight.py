@@ -35,8 +35,9 @@ def get_idf_data(doc, output_fields, dictionary):
     tokens = re.findall('\w+', doc)  # Note that \w+ splits hyphenated words
     for token in tokens:
         if not token.isdigit() and len(token) > 1 and token in dictionary:
-            if dictionary[token].negative:
-                tf_ij[output_fields.index(token)] += 1
+            tf_ij[output_fields.index(token)] += 1
+            # if dictionary[token].negative:
+                # tf_ij[output_fields.index(token)] += 1
     
     tf_ij = 1 + np.log(tf_ij)
     tf_ij[np.isinf(tf_ij)] = 0
@@ -66,7 +67,7 @@ def main(output_fields, dictionary, parser_data, output_file):
         
 
 if __name__ == '__main__':
-    MASTER = False
+    MASTER = True
     HARVARD = True
     if MASTER:
         print('Getting tf-idf weight of master dictionary:')

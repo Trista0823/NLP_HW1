@@ -125,4 +125,46 @@ BEGIN LOOPS:  Mon Nov 16 23:36:04 2020
 2019 | 3 | n_qtr =        4 | n_tot =      286 | n_err =      0 | Tue Nov 17 04:26:44 2020
 2019 | 4 | n_qtr =        4 | n_tot =      290 | n_err =      0 | Tue Nov 17 04:27:16 2020
 
-290 total forms downloaded.
+290 total forms downloaded.BEGIN LOOPS:  Tue Nov 24 03:06:02 2020
+2010 | 1 | n_qtr =       27 | n_tot =       27 | n_err =      0 | Tue Nov 24 03:06:48 2020
+2010 | 2 | n_qtr =        1 | n_tot =       28 | n_err =      0 | Tue Nov 24 03:06:51 2020
+2010 | 3 | n_qtr =        4 | n_tot =       32 | n_err =      0 | Tue Nov 24 03:07:04 2020
+2010 | 4 | n_qtr =        3 | n_tot =       35 | n_err =      0 | Tue Nov 24 03:07:14 2020
+2011 | 1 | n_qtr =       28 | n_tot =       63 | n_err =      0 | Tue Nov 24 03:09:39 2020
+2011 | 2 | n_qtr =        0 | n_tot =       63 | n_err =      0 | Tue Nov 24 03:09:40 2020
+2011 | 3 | n_qtr =        4 | n_tot =       67 | n_err =      0 | Tue Nov 24 03:09:54 2020
+2011 | 4 | n_qtr =        3 | n_tot =       70 | n_err =      0 | Tue Nov 24 03:10:04 2020
+2012 | 1 | n_qtr =       28 | n_tot =       98 | n_err =      0 | Tue Nov 24 03:12:20 2020
+2012 | 2 | n_qtr =        0 | n_tot =       98 | n_err =      0 | Tue Nov 24 03:12:22 2020
+2012 | 3 | n_qtr =        4 | n_tot =      102 | n_err =      0 | Tue Nov 24 03:12:33 2020
+2012 | 4 | n_qtr =        3 | n_tot =      105 | n_err =      0 | Tue Nov 24 03:12:43 2020
+2013 | 1 | n_qtr =       28 | n_tot =      133 | n_err =      0 | Tue Nov 24 03:15:16 2020
+2013 | 2 | n_qtr =        0 | n_tot =      133 | n_err =      0 | Tue Nov 24 03:15:17 2020
+2013 | 3 | n_qtr =        4 | n_tot =      137 | n_err =      0 | Tue Nov 24 03:15:34 2020
+2013 | 4 | n_qtr =        3 | n_tot =      140 | n_err =      0 | Tue Nov 24 03:15:43 2020
+2014 | 1 | n_qtr =       28 | n_tot =      168 | n_err =      0 | Tue Nov 24 03:18:04 2020
+2014 | 2 | n_qtr =        0 | n_tot =      168 | n_err =      0 | Tue Nov 24 03:18:06 2020
+2014 | 3 | n_qtr =        4 | n_tot =      172 | n_err =      0 | Tue Nov 24 03:18:16 2020
+2014 | 4 | n_qtr =        3 | n_tot =      175 | n_err =      0 | Tue Nov 24 03:18:26 2020
+2015 | 1 | n_qtr =       27 | n_tot =      202 | n_err =      0 | Tue Nov 24 03:20:24 2020
+2015 | 2 | n_qtr =        1 | n_tot =      203 | n_err =      0 | Tue Nov 24 03:20:27 2020
+2015 | 3 | n_qtr =        4 | n_tot =      207 | n_err =      0 | Tue Nov 24 03:20:37 2020
+2015 | 4 | n_qtr =        4 | n_tot =      211 | n_err =      0 | Tue Nov 24 03:20:47 2020
+2016 | 1 | n_qtr =       28 | n_tot =      239 | n_err =      0 | Tue Nov 24 03:22:24 2020
+2016 | 2 | n_qtr =        0 | n_tot =      239 | n_err =      0 | Tue Nov 24 03:22:25 2020
+2016 | 3 | n_qtr =        4 | n_tot =      243 | n_err =      0 | Tue Nov 24 03:22:35 2020
+2016 | 4 | n_qtr =        4 | n_tot =      247 | n_err =      0 | Tue Nov 24 03:22:45 2020
+2017 | 1 | n_qtr =       29 | n_tot =      276 | n_err =      0 | Tue Nov 24 03:24:53 2020
+2017 | 2 | n_qtr =        0 | n_tot =      276 | n_err =      0 | Tue Nov 24 03:24:54 2020
+2017 | 3 | n_qtr =        4 | n_tot =      280 | n_err =      0 | Tue Nov 24 03:25:06 2020
+2017 | 4 | n_qtr =        4 | n_tot =      284 | n_err =      0 | Tue Nov 24 03:25:16 2020
+2018 | 1 | n_qtr =       30 | n_tot =      314 | n_err =      0 | Tue Nov 24 03:27:36 2020
+2018 | 2 | n_qtr =        0 | n_tot =      314 | n_err =      0 | Tue Nov 24 03:27:37 2020
+2018 | 3 | n_qtr =        4 | n_tot =      318 | n_err =      0 | Tue Nov 24 03:27:50 2020
+2018 | 4 | n_qtr =        4 | n_tot =      322 | n_err =      0 | Tue Nov 24 03:28:01 2020
+2019 | 1 | n_qtr =       30 | n_tot =      352 | n_err =      0 | Tue Nov 24 03:30:30 2020
+2019 | 2 | n_qtr =        0 | n_tot =      352 | n_err =      0 | Tue Nov 24 03:30:32 2020
+2019 | 3 | n_qtr =        4 | n_tot =      356 | n_err =      0 | Tue Nov 24 03:30:44 2020
+2019 | 4 | n_qtr =        5 | n_tot =      361 | n_err =      0 | Tue Nov 24 03:31:03 2020
+
+361 total forms downloaded.

@@ -81,8 +81,10 @@ def download_masterindex(year, qtr, flag=False):
     for line in records:
         mir = MasterIndexRecord(line)
         if not mir.err and mir.cik in dow30:
-            if dow30[mir.cik][0]*10+dow30[mir.cik][1] <= year*10+qtr <= dow30[mir.cik][2]*10+dow30[mir.cik][3] :
-                masterindex.append(mir)
+            masterindex.append(mir)
+
+            # if dow30[mir.cik][0]*10+dow30[mir.cik][1] <= year*10+qtr <= dow30[mir.cik][2]*10+dow30[mir.cik][3]:
+            #     masterindex.append(mir)
 
     if flag:
         print('download_masterindex:  ' + str(year) + ':' + str(qtr) + ' | ' +
