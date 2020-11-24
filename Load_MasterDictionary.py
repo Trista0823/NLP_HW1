@@ -4,6 +4,7 @@
 
 import time
 
+
 def load_masterdictionary(file_path, print_flag=False, f_log=None, get_other=False):
     _master_dictionary = {}
     _sentiment_categories = ['negative', 'positive', 'uncertainty', 'litigious', 'constraining',
