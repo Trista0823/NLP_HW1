@@ -5,9 +5,26 @@ Created on Tue Nov 17 03:35:59 2020
 """
 
 import time
+import pandas as pd
+
+
+def clean_dictionary(dictionary_path, output_path):
+    def cut(s):
+        ans = []
+        for i in range(len(s)):
+            if s[i].isalpha():
+                ans.append(s[i])
+        return ''.join(ans)
+
+    hv_dictionary = pd.read_excel(dictionary_path, skiprows=[1])
+    # change the alphanum to alpha and drop duplicates
+    hv_dictionary['Entry'] = hv_dictionary['Entry'].apply(lambda x: cut(str(x)))
+    hv_dictionary = hv_dictionary.drop_duplicates(subset=['Entry'], keep='first')
+    hv_dictionary.to_csv(output_path, index=False)
 
 
 def load_harvard_dictionary(file_path, print_flag=False, f_log=None, get_other=False):
+
     _harvard_dictionary = {}
     _sentiment_categories = ['negative']
     # Load slightly modified nltk stopwords.  I do not use nltk import to avoid versioning errors.
@@ -73,8 +90,11 @@ class HavardDictionary:
 if __name__ == '__main__':
     # Full test program in /TextualAnalysis/TestPrograms/Test_Load_MasterDictionary.py
     print(time.strftime('%c') + '/n')
-    md = (r'./Harvard_Dictionary.csv')
-    harvard_dictionary, md_header, sentiment_categories, stopwords = load_harvard_dictionary(md, True, False, True)
+    dictionary_path = r'./Harvard_Dictionary_Unclean.xls'
+    output_path = r'./Harvard_Dictionary.csv'
+    clean_dictionary(dictionary_path, output_path)
+
+    harvard_dictionary, md_header, sentiment_categories, stopwords = load_harvard_dictionary(output_path, True, False, True)
     print(harvard_dictionary.keys())
     print('\n' + 'Normal termination.')
     print(time.strftime('%c') + '/n')
