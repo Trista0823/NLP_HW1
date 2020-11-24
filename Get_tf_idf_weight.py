@@ -31,14 +31,19 @@ PARSER_DATA_HARVARD = pd.read_csv('Parser_Harvard.csv')
 
 
 def get_idf_data(doc, output_fields, dictionary):
-    tf_ij = np.zeros(len(output_fields))
+    # tf_ij = np.zeros(len(output_fields))
+    tf_ij = {}
+    for i in output_fields:
+        tf_ij[i] = 0
+
     tokens = re.findall('\w+', doc)  # Note that \w+ splits hyphenated words
     for token in tokens:
         if not token.isdigit() and len(token) > 1 and token in dictionary:
-            tf_ij[output_fields.index(token)] += 1
+            tf_ij[token] += 1
             # if dictionary[token].negative:
                 # tf_ij[output_fields.index(token)] += 1
-    
+
+    tf_ij = np.array(list(tf_ij.values()))
     tf_ij = 1 + np.log(tf_ij)
     tf_ij[np.isinf(tf_ij)] = 0
     return tf_ij
@@ -47,7 +52,7 @@ def get_idf_data(doc, output_fields, dictionary):
 def main(output_fields, dictionary, parser_data, output_file):
     file_list = glob.glob(TARGET_FILES)    
     tf_idf = pd.DataFrame(index=parser_data.index, columns=output_fields)
-    N = 290
+    N = 361
     i = 0
     for file in file_list:
         print(file)
