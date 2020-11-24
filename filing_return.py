@@ -84,25 +84,50 @@ def get_result(ret_data):
     return master_result, harvard_result
 
 
+def compare_plot(master_result, harvard_result, name):
+    _ = plt.plot(master_result, 'go-', label='Fin_Neg')
+    _ = plt.plot(harvard_result, 'bo-', label='Harvard_Neg')
+    _ = plt.xlabel('Quintile(based on proportion of negative words)')
+    _ = plt.ylabel('Median Filing Period Excess Return(%)')
+    _ = plt.legend(loc='best')
+    _ = plt.savefig(name + '_result.png')
+
 if __name__ == '__main__':
     print('Getting Parser Data...')
     master_data = clean_parser('Parser.csv')
     harvard_data = clean_parser('Parser_Harvard.csv')
+    
     ticker = pd.read_csv('./ticker.txt', delimiter='\t', header=None, index_col=0)
 
     master_data = master_data.rename(columns={'% negative,': 'master %negative'})
     harvard_data = harvard_data.rename(columns={'% negative,': 'harvard %negative'})
     data = master_data.merge(right=harvard_data, on=['cik', 'filingdate'], how='inner')
+  
+    idf_weight = pd.read_csv('idf_weight.csv')
+    idf_weight_hd = pd.read_csv('idf_weight_harvard.csv')
+    parser = pd.read_csv('Parser.csv')
+    parser_hd = pd.read_csv('Parser_Harvard.csv')
+    idf_weight['%neg'] = idf_weight.apply(lambda x: x.sum(), axis = 1)
+    idf_weight_new = pd.concat([idf_weight[['%neg']], parser[['number of words,']]], axis = 1)
+    idf_weight_new['%negative'] = idf_weight_new['%neg'] / idf_weight_new['number of words,'] * 100   
+    idf_weight_hd['%neg'] = idf_weight_hd.apply(lambda x: x.sum(), axis = 1)
+    idf_weight_new_hd = pd.concat([idf_weight_hd[['%neg']], parser_hd[['number of words,']]], axis = 1)
+    idf_weight_new_hd['%negative'] = idf_weight_new_hd['%neg'] / idf_weight_new_hd['number of words,'] * 100
+    
 
     print("Getting Return Data...")
     ret_data = merge_return(data)
 
     print('Getting Result...')
     master_result, harvard_result = get_result(ret_data)
-
-    _ = plt.plot(master_result, 'go-', label='Fin_Neg')
-    _ = plt.plot(harvard_result, 'bo-', label='Harvard_Neg')
-    _ = plt.xlabel('Quintile(based on proportion of negative words)')
-    _ = plt.ylabel('Median Filing Period Excess Return(%)')
-    _ = plt.legend(loc='best')
+    
+    master_data_idf = idf_weight_new[['%negative']].rename(columns={'%negative': 'master %negative'})
+    harvard_data_idf = idf_weight_new_hd[['%negative']].rename(columns={'%negative': 'harvard %negative'})
+    result_idf = ret_data[['excessret']].join(master_data_idf)
+    result_idf = result_idf.join(harvard_data_idf)
+    master_result_idf, harvard_result_idf = get_result(result_idf)
+    
+    compare_plot(master_result, harvard_result, 'proportion')
+    compare_plot(master_result_idf, harvard_result_idf, 'TD-idf')
+    
 
