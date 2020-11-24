@@ -1,6 +1,6 @@
 /files/*
 /idf_weight.csv
-/dif_weight_harvard.csv
+/idf_weight_harvard.csv
 /.ipynb_checkpoints/*
 /_pycache_/*
 /EDGAR_Download_LogFile2010-2019.txt
