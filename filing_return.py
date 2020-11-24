@@ -93,6 +93,11 @@ def compare_plot(master_result, harvard_result, name):
     _ = plt.savefig(name + '_result.png')
 
 if __name__ == '__main__':
+    master_dic = pd.read_csv('LoughranMcDonald_MasterDictionary_2018.csv')
+    master_neg_list = list(master_dic['Word'][master_dic['Negative'] > 0])
+    harvard_dic = pd.read_csv('Harvard_Dictionary.csv')
+    harvard_neg_list = list(harvard_dic['Entry'][harvard_dic['Negativ'] == 'Negativ'])
+
     print('Getting Parser Data...')
     master_data = clean_parser('Parser.csv')
     harvard_data = clean_parser('Parser_Harvard.csv')
@@ -105,14 +110,17 @@ if __name__ == '__main__':
   
     idf_weight = pd.read_csv('idf_weight.csv')
     idf_weight_hd = pd.read_csv('idf_weight_harvard.csv')
-    parser = pd.read_csv('Parser.csv')
-    parser_hd = pd.read_csv('Parser_Harvard.csv')
-    idf_weight['%neg'] = idf_weight.apply(lambda x: x.sum(), axis = 1)
-    idf_weight_new = pd.concat([idf_weight[['%neg']], parser[['number of words,']]], axis = 1)
-    idf_weight_new['%negative'] = idf_weight_new['%neg'] / idf_weight_new['number of words,'] * 100   
-    idf_weight_hd['%neg'] = idf_weight_hd.apply(lambda x: x.sum(), axis = 1)
-    idf_weight_new_hd = pd.concat([idf_weight_hd[['%neg']], parser_hd[['number of words,']]], axis = 1)
-    idf_weight_new_hd['%negative'] = idf_weight_new_hd['%neg'] / idf_weight_new_hd['number of words,'] * 100
+    #parser = pd.read_csv('Parser.csv')
+    #parser_hd = pd.read_csv('Parser_Harvard.csv')
+    idf_weight['%word'] = idf_weight.apply(lambda x: x.sum(), axis = 1)
+    idf_weight['%neg'] = idf_weight[master_neg_list].apply(lambda x: x.sum(), axis = 1)   
+    idf_weight_new = idf_weight[['%word','%neg']]
+    idf_weight_new['%negative'] = idf_weight_new['%neg'] / idf_weight_new['%word'] 
+    
+    idf_weight_hd['%word'] = idf_weight_hd.apply(lambda x: x.sum(), axis = 1)
+    idf_weight_hd['%neg'] = idf_weight_hd[[i for i in harvard_neg_list if i in idf_weight_hd.columns]].apply(lambda x: x.sum(), axis = 1)
+    idf_weight_new_hd = idf_weight_hd[['%word','%neg']]
+    idf_weight_new_hd['%negative'] = idf_weight_new_hd['%neg'] / idf_weight_new_hd['%word'] 
     
 
     print("Getting Return Data...")
@@ -130,4 +138,25 @@ if __name__ == '__main__':
     compare_plot(master_result, harvard_result, 'proportion')
     compare_plot(master_result_idf, harvard_result_idf, 'TD-idf')
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
