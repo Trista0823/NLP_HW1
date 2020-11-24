@@ -6,6 +6,7 @@ Created on Tue Nov 17 05:24:15 2020
 @author: yi
 """
 
+import re
 import pandas as pd
 import numpy as np
 import pandas_datareader.data as web
@@ -13,6 +14,29 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
+
+
+def clean_parser(file):
+
+    def cik_cut(s):
+        pattern = ("(?<=_).*?(?=_)")
+        result = re.findall(pattern, s)
+        return result[0]
+
+    parser = pd.read_csv(file)
+    ticker = pd.read_csv('ticker.txt', delimiter='\t', header=None)
+    ticker = ticker.rename(columns={0: 'co_tic', 1: 'cik'})
+
+    parser['filingdate'] = parser['file name,'].apply(lambda x: x[8:12] + '-' + x[12:14] + '-' + x[14:16])
+    parser['file name,'] = parser['file name,'].apply(lambda x: x[32:42])
+    parser['cik'] = parser['file name,'].apply(lambda x: int(cik_cut(x)))
+
+    parser = parser.drop(columns=['file name,'])
+
+    parser = parser.merge(right=ticker, how='left', on='cik')
+    parser = parser[['% negative,', 'cik', 'filingdate']]
+    parser = parser.drop_duplicates()
+    return parser
 
 
 def get_filing_return(ticker, filingdate):
@@ -35,39 +59,50 @@ def merge_return(data):
             data['excessret'][data.index == i] = excessret.values[0]
         except:
             pass
+        if (i+1) % 10 == 0:
+            print("{} files have been merged with returns".format(i+1))
+    data.to_csv('./return_data.csv', index=False)
     return data
-  
-
-def quantile_calc(x, _quantiles = 5):
-    return pd.qcut(x, _quantiles, labels=False) + 1
 
 
 def get_result(ret_data):
+
+    def quantile_calc(x, _quantiles=5):
+        return pd.qcut(x, _quantiles, labels=False) + 1
+
     grouped_data = ret_data.copy()
     grouped_data = grouped_data.dropna()
-    grouped_data['group'] = quantile_calc(grouped_data['% negative,'])
-    result = grouped_data[['group', 'excessret']].groupby('group').agg({'excessret': 'median'})
-    result.index = ['Low', '2', '3', '4', 'High']
-    result['excessret'] = result['excessret'] * 100
-    return result
+    grouped_data['master_group'] = quantile_calc(grouped_data['master %negative'])
+    grouped_data['harvard_group'] = quantile_calc(grouped_data['harvard %negative'])
+    grouped_data['excessret'] = grouped_data['excessret']*100
+
+    master_result = grouped_data[['master_group', 'excessret']].groupby('master_group').agg({'excessret': 'median'})
+    harvard_result = grouped_data[['harvard_group', 'excessret']].groupby('harvard_group').agg({'excessret': 'median'})
+    master_result.index = ['Low', '2', '3', '4', 'High']
+    harvard_result.index = ['Low', '2', '3', '4', 'High']
+
+    return master_result, harvard_result
 
 
 if __name__ == '__main__':
-    print('Getting Parser Data:')
+    print('Getting Parser Data...')
+    master_data = clean_parser('Parser.csv')
+    harvard_data = clean_parser('Parser_Harvard.csv')
     ticker = pd.read_csv('./ticker.txt', delimiter='\t', header=None, index_col=0)
-    master_data = pd.read_csv('Parser_Clean.csv')
-    harvard_data = pd.read_csv('Parser_Harvard_Clean.csv')
 
-    print("Getting Return Data:")
-    master_ret_data = merge_return(master_data)
-    harvard_ret_data = merge_return(harvard_data)
+    master_data = master_data.rename(columns={'% negative,': 'master %negative'})
+    harvard_data = harvard_data.rename(columns={'% negative,': 'harvard %negative'})
+    data = master_data.merge(right=harvard_data, on=['cik', 'filingdate'], how='inner')
 
-    print('Getting Result:')
-    master_result = get_result(master_ret_data)
-    harvard_result = get_result(harvard_ret_data)
+    print("Getting Return Data...")
+    ret_data = merge_return(data)
+
+    print('Getting Result...')
+    master_result, harvard_result = get_result(ret_data)
 
     _ = plt.plot(master_result, 'go-', label='Fin_Neg')
-    _ = plt.plot(harvard_result, 'go-', label='Harvard_Neg')
+    _ = plt.plot(harvard_result, 'bo-', label='Harvard_Neg')
     _ = plt.xlabel('Quintile(based on proportion of negative words)')
     _ = plt.ylabel('Median Filing Period Excess Return(%)')
     _ = plt.legend(loc='best')
+
