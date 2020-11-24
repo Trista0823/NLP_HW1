@@ -85,12 +85,14 @@ def get_result(ret_data):
 
 
 def compare_plot(master_result, harvard_result, name):
+    plt.figure(figsize=(8, 4))
     _ = plt.plot(master_result, 'go-', label='Fin_Neg')
     _ = plt.plot(harvard_result, 'bo-', label='Harvard_Neg')
     _ = plt.xlabel('Quintile(based on proportion of negative words)')
     _ = plt.ylabel('Median Filing Period Excess Return(%)')
     _ = plt.legend(loc='best')
     _ = plt.savefig(name + '_result.png')
+
 
 if __name__ == '__main__':
     master_dic = pd.read_csv('LoughranMcDonald_MasterDictionary_2018.csv')
