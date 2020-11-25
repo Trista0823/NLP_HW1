@@ -26,8 +26,8 @@ HARVARD_DICTIONARY_FILE = r'./Harvard_Dictionary.csv'
 OUTPUT_FILE_MASTER = 'idf_weight.csv'
 OUTPUT_FILE_HARVARD = 'idf_weight_harvard.csv'
 # Parser files
-PARSER_DATA_MASTER = pd.read_csv('Parser.csv')
-PARSER_DATA_HARVARD = pd.read_csv('Parser_Harvard.csv')
+PARSER_DATA_MASTER = pd.read_csv('Parser.csv').sort_values(by="file name,")
+PARSER_DATA_HARVARD = pd.read_csv('Parser_Harvard.csv').sort_values(by="file name,")
 
 
 def get_idf_data(doc, output_fields, dictionary):
@@ -50,7 +50,7 @@ def get_idf_data(doc, output_fields, dictionary):
 
 
 def main(output_fields, dictionary, parser_data, output_file):
-    file_list = glob.glob(TARGET_FILES)    
+    file_list = sorted(glob.glob(TARGET_FILES))
     tf_idf = pd.DataFrame(index=parser_data.index, columns=output_fields)
     N = 361
     i = 0
