@@ -82,6 +82,12 @@ def download_forms():
     f_log.write('BEGIN LOOPS:  {0}\n'.format(time.strftime('%c')))
     n_tot = 0
     n_errs = 0
+    if not os.path.exists(PARM_PATH):
+        os.makedirs(PARM_PATH)
+        print('Path: {0} created'.format(PARM_PATH))
+    file_list = os.listdir(PARM_PATH)
+    for i in range(len(file_list)):
+        file_list[i] = os.path.join(PARM_PATH, file_list[i])
     for year in range(PARM_BGNYEAR, PARM_ENDYEAR + 1):
         for qtr in range(PARM_BGNQTR, PARM_ENDQTR + 1):
             startloop = time.clock()
@@ -90,9 +96,11 @@ def download_forms():
             # Setup output path
             # path = PARM_PATH
             path = '{0}{1}\\QTR{2}\\'.format(PARM_PATH, str(year), str(qtr))
+            '''
             if not os.path.exists(PARM_PATH):
                 os.makedirs(PARM_PATH)
                 print('Path: {0} created'.format(PARM_PATH))
+            '''
             masterindex = EDGAR_Pac.download_masterindex(year, qtr, True)
             if masterindex:
                 for item in masterindex:
@@ -111,10 +119,11 @@ def download_forms():
                         fname = (PARM_PATH + str(item.filingdate) + '_' + item.form.replace('/', '-') + '_' +
                                  item.path.replace('/', '_'))
                         fname = fname.replace('.txt', '_' + str(file_count[fid]) + '.txt')
-                        return_url = General_Utilities.download_to_file(url, fname, f_log)
-                        if return_url:
-                            n_errs += 1
-                        n_tot += 1
+                        if fname not in file_list:
+                            return_url = General_Utilities.download_to_file(url, fname, f_log)
+                            if return_url:
+                                n_errs += 1
+                            n_tot += 1
                         # time.sleep(1)  # Space out requests
             print(str(year) + ':' + str(qtr) + ' -> {0:,}'.format(n_qtr) + ' downloads completed.  Time = ' +
                   time.strftime('%H:%M:%S', time.gmtime(time.clock() - startloop)) +

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Nov 17 05:24:15 2020
-
 @author: yi
 """
 
@@ -88,7 +87,10 @@ def compare_plot(master_result, harvard_result, name):
     plt.figure(figsize=(8, 4))
     _ = plt.plot(master_result, 'go-', label='Fin_Neg')
     _ = plt.plot(harvard_result, 'bo-', label='Harvard_Neg')
-    _ = plt.xlabel('Quintile(based on proportion of negative words)')
+    if name == 'proportion':
+        _ = plt.xlabel('Quintile(based on proportion of negative words)')
+    else:
+        _ = plt.xlabel('Quintile(based on tf.idf of negative words)')
     _ = plt.ylabel('Median Filing Period Excess Return(%)')
     _ = plt.legend(loc='best')
     _ = plt.savefig(name + '_result.png')
@@ -138,27 +140,8 @@ if __name__ == '__main__':
     master_result_idf, harvard_result_idf = get_result(result_idf)
     
     compare_plot(master_result, harvard_result, 'proportion')
-    compare_plot(master_result_idf, harvard_result_idf, 'TD-idf')
+    compare_plot(master_result_idf, harvard_result_idf, 'tf-idf')
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
